@@ -1,0 +1,44 @@
+@import url("https://fonts.googleapis.com/css2?family=Josefin+Sans&display=swap");
+.card-day {
+  margin-bottom: 20px;
+  margin-top: 10px;
+  max-width: 700px !important;
+  margin: 0 auto;
+}
+
+body {
+  background-color: #e2dede; 
+  font-family: "Josefin Sans";
+  margin: 0;
+  padding: 0;
+}
+
+.main {
+  text-align: center;
+}
+
+#form-area {
+  display: flex;
+  justify-content: center;
+  height: 20vh;
+  align-items: center;
+}
+
+.title > p {
+  color: #e03484;
+}
+
+#container {
+  height: 50vh;
+  width: 100%;
+  display: flex;
+  justify-content: space-evenly;
+  flex-wrap: wrap;
+  align-items: center;
+}
+
+.card-icon {
+  width: 130px;
+}
+
+/*# sourceMappingURL=main.css.map */

@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="assets/public/css/main.css">
+    <script src="./assets/js/index.js"></script>
+    <title>Weather Forecast</title>
+</head>
+<body>
+    <div class="main">
+        <div class="container-title">
+            <div class="title">
+                <h1>WEATHER FORECAST APP</h1>
+                <h4>Sunny?☀️ Snowy?🌨️ Cloudy?☁️ Rainy?🌧️</h4>
+                <p id="locationHour"></p>
+            </div>
+        </div>
+
+        <section id="form-area">
+
+            <!-- Form to choose city -->
+            <form action="" method="get" class="form-meteo" id="form-meteo">
+                    <label for="name">Enter your city: </label>
+                    <input type="text" name="city" id="city" required>
+                    <!-- Dropdown to choose number of days -->
+                    <label for="days-select">Choose a number:</label>
+
+                    <select name="num_of_days" id="days-select">
+                        <option value="">--Please choose an option--</option>
+                        <option value="1">1</option>
+                        <option value="2">2</option>
+                        <option value="3">3</option>
+                        <option value="4">4</option>
+                        <option value="5">5</option>
+                        <option value="6">6</option>
+                        <option value="7">7</option>
+                    </select>
+                    <input type="submit" value="Go!">
+            </form>
+
+        
+        </section>
+
+        <!-- Container to display days -->
+        <div id="container"></div>
+    </div>   
+</body>
+</html>
+
+
+
+
+

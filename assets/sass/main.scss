@@ -1,0 +1,48 @@
+@import 'card_day';
+@import url('https://fonts.googleapis.com/css2?family=Josefin+Sans&display=swap');
+
+
+body {
+    background-color: rgb(226, 222, 222);
+    font-family: 'Josefin Sans';
+    margin: 0;
+    padding: 0;
+}
+
+.main {
+    text-align: center;
+}
+
+#form-area {
+    display: flex;
+    justify-content: center;
+    height: 20vh;
+    align-items: center;
+}
+
+.title {
+    > p {
+        color: rgb(224, 52, 132);
+    }
+}
+
+#container {
+    height: 50vh;
+    width: 100%;
+    display: flex;
+    justify-content: space-evenly;
+    flex-wrap: wrap;
+    align-items: center;
+
+    // exemples d'utilisation de sass
+    // > div {
+    //     width: 16%;
+    // }
+    // > div > h5:nth-child(2) {
+    //     text-align: center;
+    //    }
+  }
+
+.card-icon {
+    width: 130px;
+}
