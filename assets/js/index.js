@@ -1,4 +1,4 @@
-// not secure, nut no other real options right now ;)
+// not secure, but no other real options right now ;)
 const OCD_API_KEY= "1a91235147f74f4fb13e628ac092a08f"
 const OWM_API_KEY= "d0fcc00c02efe5b8355fa57156f79f2b"
 
@@ -70,7 +70,6 @@ function render(id, data, component) {
     }
 }
 
-
 // fonction qui renvoie le 'path' de l'icône correspondant à l'id de la météo
 function getWeatherCategory(id) { // Code Météo : https://openweathermap.org/weather-conditions#Weather-Condition-Codes-2
     let path = ""
@@ -98,6 +97,7 @@ function removeAllChildNodes(parent) {
     }
 }
 
+// fonction qui gère le mode night/day et renvoie false/true
 function getLightMode(timestamp, sunrise, sunset) {
     // console.log('time:', timestamp, sunrise, sunset) // debug);
     if (timestamp >= sunrise && timestamp <= sunset) {
@@ -111,7 +111,7 @@ function getLightMode(timestamp, sunrise, sunset) {
 
 // ########### Gestion du cache du navigateur (localStorage) - (Bonus) ########## 
 
-//fonctions qui récupère/crée/update un objet dans le localStorage 
+//fonctions qui récupèrent/créent/updatent un objet dans le localStorage 
 const getCityLoaded = (cityName) => localStorage.getItem(cityName) ? JSON.parse(localStorage.getItem(cityName)) : []
 
 const setCityLoaded = (cityName, dataCity) => localStorage.setItem(cityName, JSON.stringify(dataCity))
@@ -122,18 +122,17 @@ const addToCityLoaded = (cityName, newData) => {
     setCityLoaded(cityName, dataCity)
 }
 
-// fonction qui vide le cache du navigateur (localStorage) toutes les 60 minutes
-let myinterval = 60*60*1000; // 60 min interval
-setInterval(() => { localStorage.clear() }, myinterval );
+let myinterval = 60*60*1000; // 60 min
+setInterval(() => { localStorage.clear() }, myinterval ); // vide le cache du navigateur (localStorage) toutes les 60 minutes
 
 
 
 // ########################################### 
-// ########## LOGIQUE DU PROGRAMME : ######### 
+// ########## LOGIQUE DE L'APP : ######### 
 // ########################################### 
 
 
-// evnet qui se déclenche au chargement de la page
+// event qui se déclenche au chargement de la page (DOMContentLoaded)
 document.addEventListener('DOMContentLoaded', () => {
 
     // event qui se déclenche lorsque le user soumet le formulaire
@@ -155,7 +154,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
          // ### 
 
-            // 2. on récupère les données à l'aide de la fonction getDataFromAPIs qui est générique et change selon l'argument fourni
+            // on récupère les données de l'API OCD à l'aide de la fonction getDataFromAPIs (elle gère les 2 appels d'API)
             getDataFromAPIs(inputCityName)
             .then(rawData => {
                 
@@ -165,7 +164,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     long: rawData.results[0].geometry.lng
                 }
                 
-                // 2-bis. on récupère les autres données, toujours à l'aide de la fonction getDataFromAPIs, les arguments ont changé
+                // on récupère les données de l'API OWM, toujours à l'aide de la fonction getDataFromAPIs (mais les arguments ont changé)
                 getDataFromAPIs(coordsData)
                 .then(rawData => {
                     let meteoDays = []
@@ -174,15 +173,15 @@ document.addEventListener('DOMContentLoaded', () => {
                         meteoDays.push(rawData.daily[i].weather[0].id)
                     }
 
-                    addToCityLoaded(inputCityName, meteoDays) // localstorage : ajouter 
+                    addToCityLoaded(inputCityName, meteoDays) // localstorage : ajouter au cache
 
-                    // 3. on affiche('render') les infos dans un composant
+                    // on affiche('render') les infos dans un composant
                     render("container", meteoDays.slice(0, eltSelect.selectedIndex), componentCardDay)
                     
-                    // Show UTC Hour of location
+                    // show UTC Hour of location
                     document.getElementById("locationHour").innerText = getHour(rawData.current.dt, rawData.timezone) + ' UTC Time';
 
-                    // Change background color depending on the time of the day
+                    // change background color depending on the time of the day
                     if (getLightMode(rawData.current.dt, rawData.current.sunrise, rawData.current.sunset)) {
                         document.body.style.backgroundColor = '#e2dede';
                     } else {
