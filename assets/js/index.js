@@ -44,14 +44,12 @@ function getHour(timestamp, timezone) {
     return date.toLocaleString('en-GB', { timeZone: timezone, hour: '2-digit', minute: '2-digit' }) // Converts a date and time to a string, using a locale and a time zone.
     // to get the day ->  date.toLocaleString('en-GB', { timeZone: timezone, weekday: 'long' })
 }
-    
 
 // fonction qui prend en argument une #id, un composant et des données et ajoute le composant dans le DOM 
 function render(id, data, component) {
     const container = document.getElementById(id)
     
     if (container.childNodes) { removeAllChildNodes(container) } // on 'nettoie' le container
-    
     // si le container existe, on créé un element pour chaque valeur du tableau 'data'
     if (container) {
         data.forEach((card, index) => {
@@ -130,20 +128,20 @@ setInterval(() => { localStorage.clear() }, myinterval );
 
 
 
+// ########################################### 
+// ########## LOGIQUE DU PROGRAMME : ######### 
+// ########################################### 
 
-// ########### LOGIQUE DU PROGRAMME : ########## 
 
-// let lightMode = false
-
-// se déclenche au chargement de la page
+// evnet qui se déclenche au chargement de la page
 document.addEventListener('DOMContentLoaded', () => {
-// ce code se déclenchera lorsque le user aura soumis le formulaire
 
-    document.getElementById("form-meteo").addEventListener("submit", (event) => { // se déclenche 
+    // event qui se déclenche lorsque le user soumet le formulaire
+    document.getElementById("form-meteo").addEventListener("submit", (event) => { 
         event.preventDefault() // important pour éviter les comportements par défaut, notammment le déclenchement du submit dès le chargement de la page 
 
         // 1. on récupère le nom de la ville rentrée par le user et le nombre de jours demandés
-        let inputCityName = document.getElementById('city').value.trim().toLowerCase()
+        let inputCityName = document.getElementById('city').value.toLowerCase()
         let eltSelect = document.querySelector('select');
 
         // ### BONUS-'CACHE' : on vérifie si les data sont déjà enregistré dans le cache (LOCAL STORAGE)
@@ -166,21 +164,19 @@ document.addEventListener('DOMContentLoaded', () => {
                     lat: rawData.results[0].geometry.lat, 
                     long: rawData.results[0].geometry.lng
                 }
-                console.log("coords:",coordsData);
                 
                 // 2-bis. on récupère les autres données, toujours à l'aide de la fonction getDataFromAPIs, les arguments ont changé
                 getDataFromAPIs(coordsData)
                 .then(rawData => {
                     let meteoDays = []
-                    // let timeDays = []
                     
                     for(let i = 0; i < rawData.daily.length; i++) {
                         meteoDays.push(rawData.daily[i].weather[0].id)
                     }
 
-                    addToCityLoaded(inputCityName, meteoDays) // (Bonus) localstorage
+                    addToCityLoaded(inputCityName, meteoDays) // localstorage : ajouter 
 
-                    // 3. on affiche les infos dans un composant
+                    // 3. on affiche('render') les infos dans un composant
                     render("container", meteoDays.slice(0, eltSelect.selectedIndex), componentCardDay)
                     
                     // Show UTC Hour of location
@@ -189,10 +185,8 @@ document.addEventListener('DOMContentLoaded', () => {
                     // Change background color depending on the time of the day
                     if (getLightMode(rawData.current.dt, rawData.current.sunrise, rawData.current.sunset)) {
                         document.body.style.backgroundColor = '#e2dede';
-                        // lightMode = true
                     } else {
                         document.body.style.backgroundColor = '#4e38b1';
-                        // lightMode = false
                     }
 
                 })
